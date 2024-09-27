@@ -2,6 +2,7 @@
 
 # custom
 .idea/
+docker_volumes/
 
 # dependencies
 /node_modules
