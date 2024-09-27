@@ -1,6 +1,8 @@
 export const data = {
+  combos: [{ id: "combo1", combo: "combo2" }, { id: "combo2" }],
   nodes: [
     {
+      combo: "combo1",
       id: "0",
       data: {
         email: "ejoplin@yoyodyne.com",
@@ -13,6 +15,7 @@ export const data = {
     },
     {
       id: "1",
+      combo: "combo1",
       data: {
         email: "groberts@yoyodyne.com",
         fax: "555-0101",
@@ -24,6 +27,7 @@ export const data = {
     },
     {
       id: "2",
+      combo: "combo1",
       data: {
         email: "aburns@yoyodyne.com",
         fax: "555-0103",
@@ -35,6 +39,7 @@ export const data = {
     },
     {
       id: "4",
+      combo: "combo2",
       data: {
         email: "msmith@yoyodyne.com",
         fax: "555-0115",
@@ -46,6 +51,7 @@ export const data = {
     },
     {
       id: "5",
+      combo: "combo2",
       data: {
         email: "bwhite@yoyodyne.com",
         fax: "555-0117",

@@ -237,6 +237,7 @@ export default function () {
           collide: {
             strength: 0.01,
           },
+          forceSimulation: true,
         },
         //autoFit: "view",
         behaviors: [
@@ -246,10 +247,6 @@ export default function () {
           "click-select",
           "activate-relations",
           "level-of-detail",
-          {
-            type: "collapse-expand-group",
-            trigger: "click",
-          },
         ],
       });
     }
