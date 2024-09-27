@@ -3,9 +3,7 @@ const nextConfig = {
   output: "export",
   basePath: "/mshack-organigram",
   reactStrictMode: true,
-  images: {
-    unoptimized: true,
-  },
 };
 
-export default nextConfig;
+//export default nextConfig;
+module.exports = nextConfig;
