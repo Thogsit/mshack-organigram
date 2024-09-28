@@ -16,10 +16,20 @@ export class OrgNodeDto {
     }
 }
 
-export interface OrgNode {
+export class OrgNode {
     id: string;
     name: string;
     groupId?: string;
+
+    constructor(id: string, name: string, groupId?: string) {
+        this.id = id;
+        this.name = name;
+        this.groupId = groupId;
+    }
+
+    public static fromGraphNode(node: GraphNode): OrgNode {
+        return new OrgNode(node.id, node.data.name, node.combo);
+    }
 }
 
 export interface GraphNodeData {

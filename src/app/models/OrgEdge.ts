@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from 'uuid';
+
 export class OrgEdgeDto {
     sourceId: string;
     targetId: string;
@@ -19,11 +21,22 @@ export class OrgEdgeDto {
     }
 }
 
-export interface OrgEdge {
+export class OrgEdge {
     id: string;
     sourceId: string;
     targetId: string;
     label: string;
+
+    constructor(id: string, sourceId: string, targetId: string, label: string) {
+        this.id = id;
+        this.sourceId = sourceId;
+        this.targetId = targetId;
+        this.label = label;
+    }
+
+    public static fromGraphEdge(edge: GraphEdge): OrgEdge {
+        return new OrgEdge(uuidv4(), edge.source, edge.target, edge.label);
+    }
 }
 
 export class GraphEdge {

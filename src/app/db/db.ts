@@ -1,65 +1,45 @@
+import * as fs from 'fs';
+
 import {GraphNode, OrgNode} from "@/app/models/OrgNode";
 import {GraphCombo, OrgGroup} from "@/app/models/OrgGroup";
 import {GraphEdge, OrgEdge} from "@/app/models/OrgEdge";
 
+export interface GraphData {
+    nodes: GraphNode[];
+    combos: GraphCombo[];
+    edges: GraphEdge[];
+}
+
+export interface DbContent {
+    organizations: OrgNode[];
+    groups: OrgNode[];
+    edges: OrgEdge[];
+}
+
 export class Db {
-    private static content: {
-        organizations: OrgNode[],
-        groups: OrgNode[],
-        edges: OrgEdge[],
-    } = {
-        organizations: [
-            {
-                id: '1',
-                name: 'Org 1',
-                groupId: '1'
-            },
-            {
-                id: '2',
-                name: 'Org 2',
-                groupId: '1'
-            },
-            {
-                id: '3',
-                name: 'Org 3',
-                groupId: '2'
-            }
-        ],
-        groups: [
-            {
-                id: '1',
-                name: 'Group 1'
-            },
-            {
-                id: '2',
-                name: 'Group 2'
-            }
-        ],
-        edges: [
-            {
-                id: '1',
-                sourceId: '1',
-                targetId: '2',
-                label: 'Edge 1'
-            },
-            {
-                id: '2',
-                sourceId: '2',
-                targetId: '3',
-                label: 'Edge 2',
-            },
-        ],
-    };
+    private static content: DbContent = Db.convertJsonToContent(
+        JSON.parse(
+            fs.readFileSync('resources/initial_graph.json', 'utf-8')
+        )
+    );
 
     /*
      * Graph
      */
 
-    public static getAsGraphData(): { nodes: GraphNode[], combos: GraphCombo[], edges: GraphEdge[] } {
+    public static getAsGraphData(): GraphData {
         return {
             nodes: this.content.organizations.map(node => GraphNode.fromOrgNode(node)),
             combos: this.content.groups.map(group => GraphCombo.fromOrgGroup(group)),
             edges: this.content.edges.map(edge => GraphEdge.fromOrgEdge(edge)),
+        };
+    }
+
+    public static convertJsonToContent(json: GraphData): DbContent {
+        return {
+            organizations: json.nodes.map(node => OrgNode.fromGraphNode(node)),
+            groups: json.combos.map(combo => OrgGroup.fromGraphCombo(combo)),
+            edges: json.edges.map(edge => OrgEdge.fromGraphEdge(edge)),
         };
     }
 
