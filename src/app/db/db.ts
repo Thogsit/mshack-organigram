@@ -1,39 +1,47 @@
-import {OrgNode} from "@/app/models/OrgNode";
-import {OrgGroup} from "@/app/models/OrgGroup";
+import * as fs from 'fs';
+
+import {GraphNode, OrgNode} from "@/app/models/OrgNode";
+import {GraphCombo, OrgGroup} from "@/app/models/OrgGroup";
+import {GraphEdge, OrgEdge} from "@/app/models/OrgEdge";
+
+export interface GraphData {
+    nodes: GraphNode[];
+    combos: GraphCombo[];
+    edges: GraphEdge[];
+}
+
+export interface DbContent {
+    organizations: OrgNode[];
+    groups: OrgNode[];
+    edges: OrgEdge[];
+}
 
 export class Db {
-    private static content: {
-        organizations: OrgNode[],
-        groups: OrgNode[],
-    } = {
-        organizations: [
-            {
-                id: '1',
-                name: 'Org 1',
-                groupId: '1'
-            },
-            {
-                id: '2',
-                name: 'Org 2',
-                groupId: '1'
-            },
-            {
-                id: '3',
-                name: 'Org 3',
-                groupId: '2'
-            }
-        ],
-        groups: [
-            {
-                id: '1',
-                name: 'Group 1'
-            },
-            {
-                id: '2',
-                name: 'Group 2'
-            }
-        ]
-    };
+    private static content: DbContent = Db.convertJsonToContent(
+        JSON.parse(
+            fs.readFileSync('resources/initial_graph.json', 'utf-8')
+        )
+    );
+
+    /*
+     * Graph
+     */
+
+    public static getAsGraphData(): GraphData {
+        return {
+            nodes: this.content.organizations.map(node => GraphNode.fromOrgNode(node)),
+            combos: this.content.groups.map(group => GraphCombo.fromOrgGroup(group)),
+            edges: this.content.edges.map(edge => GraphEdge.fromOrgEdge(edge)),
+        };
+    }
+
+    public static convertJsonToContent(json: GraphData): DbContent {
+        return {
+            organizations: json.nodes.map(node => OrgNode.fromGraphNode(node)),
+            groups: json.combos.map(combo => OrgGroup.fromGraphCombo(combo)),
+            edges: json.edges.map(edge => OrgEdge.fromGraphEdge(edge)),
+        };
+    }
 
     /*
      * Organizations
@@ -105,5 +113,41 @@ export class Db {
         this.content.groups.splice(index, 1);
 
         return group;
+    }
+
+    /*
+     * Edges
+     */
+
+    public static getEdges(): OrgEdge[] {
+        return this.content.edges;
+    }
+
+    public static getEdgeById(id: string): OrgEdge | undefined {
+        return this.content.edges.find(edge => edge.id === id);
+    }
+
+    public static updateEdge(id: string, edge: OrgEdge): void {
+        const index = this.content.edges.findIndex(e => e.id === id);
+        if (index === -1) {
+            throw new Error(`Edge with id ${id} not found`);
+        }
+        this.content.edges[index] = edge;
+    }
+
+    public static addEdge(edge: OrgEdge): OrgEdge {
+        this.content.edges.push(edge);
+        return edge;
+    }
+
+    public static deleteEdge(id: string): OrgEdge {
+        const index = this.content.edges.findIndex(e => e.id === id);
+        if (index === -1) {
+            throw new Error(`Edge with id ${id} not found`);
+        }
+        const edge = this.content.edges[index];
+        this.content.edges.splice(index, 1);
+
+        return edge;
     }
 }
