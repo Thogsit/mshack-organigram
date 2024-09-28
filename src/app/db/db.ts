@@ -12,7 +12,7 @@ export interface GraphData {
 
 export interface DbContent {
   organizations: OrgNode[];
-  groups: OrgNode[];
+  groups: OrgGroup[];
   edges: OrgEdge[];
 }
 
