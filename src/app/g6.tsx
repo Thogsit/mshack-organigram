@@ -7,21 +7,32 @@ import { data } from "./data";
 import {
   Badge,
   BaseBehavior,
+  BaseBehaviorOptions,
   ComboData,
   EdgeData,
   ExtensionCategory,
   Graph,
   GraphEvent,
+  IViewportEvent,
   Label,
   Rect,
+  RectStyleProps,
   register,
+  RuntimeContext,
 } from "@antv/g6";
+import { dataBezreg } from "./data/bezreg";
+import { DisplayObject } from "@antv/g-lite";
 
-const ICON_MAP = {
-  error: "&#10060;",
-  overload: "&#9889;",
-  running: "&#9989;",
-};
+const DEFAULT_LEVEL = "detailed";
+
+export interface ChartNodeData {
+  text: string;
+  name: string;
+  level: string;
+  position: string;
+  phone: string;
+  status: "online" | "busy" | "offline";
+}
 
 const COLOR_MAP = {
   error: "#f5222d",
@@ -29,28 +40,27 @@ const COLOR_MAP = {
   running: "#52c41a",
 };
 
-const statusColors = {
+const STATUS_COLORS = {
   online: "#17BEBB",
   busy: "#E36397",
   offline: "#B7AD99",
 };
 
-const DEFAULT_LEVEL = "detailed";
-
 /**
  * Draw a chart node with different ui based on the zoom level.
  */
 class ChartNode extends Rect {
-  get data() {
-    return this.context.model.getElementDataById(this.id).data;
+  get data(): ChartNodeData {
+    return this.context.model.getElementDataById(this.id)
+      .data as any as ChartNodeData;
   }
 
   get level() {
     return this.data!.level || DEFAULT_LEVEL;
   }
 
-  getLabelStyle() {
-    const text = this.data!.name;
+  getLabelStyle(): any {
+    const text = this.data!.name ?? "";
     const labelStyle =
       this.level === "overview"
         ? {
@@ -73,16 +83,13 @@ class ChartNode extends Rect {
   getKeyStyle(attributes: any) {
     return {
       ...super.getKeyStyle(attributes),
-      // @ts-ignore
       fill: this.level === "overview" ? statusColors[this.data.status] : "#fff",
     };
   }
 
-  // @ts-ignore
-  getPositionStyle(attributes) {
+  getPositionStyle(_: RectStyleProps) {
     if (this.level === "overview") return false;
     return {
-      // @ts-ignore
       text: this.data.position,
       fontSize: 8,
       fontWeight: 400,
@@ -95,36 +102,30 @@ class ChartNode extends Rect {
 
   drawPositionShape(attributes: any, container: any) {
     const positionStyle = this.getPositionStyle(attributes);
-    // @ts-ignore
-    this.upsert("position", Label, positionStyle, container);
+    this.upsert("position", Label, positionStyle as any, container);
   }
 
-  // @ts-ignore
-  getStatusStyle(attributes: any) {
+  getStatusStyle() {
     if (this.level === "overview") return false;
     return {
-      // @ts-ignore
       text: this.data.status,
       fontSize: 8,
       textAlign: "left",
       transform: "translate(40, -16)",
       padding: [0, 4],
       fill: "#fff",
-      // @ts-ignore
-      backgroundFill: statusColors[this.data.status],
+      backgroundFill: STATUS_COLORS[this.data.status],
     };
   }
 
-  drawStatusShape(attributes: any, container: any) {
-    const statusStyle = this.getStatusStyle(attributes);
-    // @ts-ignore
-    this.upsert("status", Badge, statusStyle, container);
+  drawStatusShape(_: RectStyleProps, container: DisplayObject) {
+    const statusStyle = this.getStatusStyle();
+    this.upsert("status", Badge, statusStyle as any, container);
   }
 
-  getPhoneStyle(attributes: any) {
+  getPhoneStyle() {
     if (this.level === "overview") return false;
     return {
-      // @ts-ignore
       text: this.data.phone,
       fontSize: 8,
       fontWeight: 300,
@@ -133,8 +134,8 @@ class ChartNode extends Rect {
     };
   }
 
-  drawPhoneShape(attributes: any, container: any) {
-    const style = this.getPhoneStyle(attributes);
+  drawPhoneShape(_: RectStyleProps, container: DisplayObject) {
+    const style = this.getPhoneStyle();
     this.upsert("phone", Label, style as any, container);
   }
 
@@ -159,22 +160,22 @@ class LevelOfDetail extends BaseBehavior {
     ["detailed"]: [0.6, Infinity],
   };
 
-  constructor(context: any, options: any) {
+  constructor(context: RuntimeContext, options: Partial<BaseBehaviorOptions>) {
     super(context, options);
     this.bindEvents();
   }
 
-  update(options: any) {
+  update(options: Partial<BaseBehaviorOptions>) {
     this.unbindEvents();
     super.update(options);
     this.bindEvents();
   }
 
-  updateZoomLevel = async (e: any) => {
+  updateZoomLevel = async (e: IViewportEvent) => {
     if ("scale" in e.data) {
-      const scale = e.data.scale;
+      const scale = e.data.scale!;
       const level = Object.entries(this.levels).find(
-        ([key, [min, max]]: any) => scale > min && scale <= max,
+        ([_, [min, max]]: any) => scale > min && scale <= max,
       )?.[0];
       if (level && this.prevLevel !== level) {
         const { graph } = this.context;
@@ -212,6 +213,16 @@ export default function () {
 
   useEffect(() => {
     if (graph == null) {
+      const dataSourcses = [data, dataBezreg];
+      const dataset = dataSourcses.reduce(
+        (prev, curr) => ({
+          combos: [...prev.combos, ...curr.combos],
+          nodes: [...prev.nodes, ...curr.nodes],
+          edges: [...prev.edges, ...curr.edges],
+        }),
+        { combos: [], nodes: [], edges: [] },
+      );
+
       graph = new Graph({
         node: {
           type: "chart-node",
@@ -236,16 +247,20 @@ export default function () {
           },
         },
         combo: {
+          type: "rect",
           style: {
             labelText: function (this: Graph, d: ComboData) {
               return d.label as string;
+            },
+            labelCfg: {
+              position: "top",
             },
             endArrow: true,
           },
         },
 
         container: ReactDOM.findDOMNode(ref.current) as any,
-        data,
+        data: dataset,
         width: 1500,
         height: 1500,
         layout: {
@@ -253,18 +268,19 @@ export default function () {
           //kr: 20,
           //preventOverlap: true,
           //nodeSize: 20,
-          //   type: "d3-force",
-          //preventOverlap: true,
-          //collide: {
-          //  strength: 0.01,
-          //},
+          //type: "d3-force",
           //forceSimulation: true,
           //layout: {
-          type: "combo-combined",
-          comboPadding: 2,
-          //},
+          type: "grid",
+          comboPadding: 120,
+          preventOverlap: true,
+          outerLayout: {
+            type: "ForceLayout",
+            preventOverlap: true,
+            nodeSize: 200,
+          },
         },
-        //autoFit: "view",
+        autoFit: "view",
         behaviors: [
           "drag-canvas",
           "zoom-canvas",

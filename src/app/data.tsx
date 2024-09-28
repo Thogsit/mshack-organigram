@@ -1,14 +1,38 @@
 export const data = {
   combos: [
-    { id: "gf", label: "Geschäftsführung" },
-    { id: "vp", label: "Vertrieb + Prozessmanagement" },
-    { id: "it", label: "IT-Management" },
-    { id: "marketing", label: "Produktmanagement + Marketing" },
-    { id: "hr", label: "Personal" },
-    { id: "finance", label: "Finanzmanagement + Finanzierung" },
-    { id: "mobility", label: "Mobilitätsbetrieb" },
-    { id: "energy", label: "Energiewirtschaft" },
-    { id: "environment", label: "Umweltschutz + Arbeitssicherheit" },
+    { id: "gf", label: "Geschäftsführung", combo: "stw" },
+    { id: "vp", label: "Vertrieb + Prozessmanagement", combo: "stw" },
+    { id: "it", label: "IT-Management", combo: "stw" },
+    { id: "marketing", label: "Produktmanagement + Marketing", combo: "stw" },
+    { id: "hr", label: "Personal", combo: "stw" },
+    { id: "finance", label: "Finanzmanagement + Finanzierung", combo: "stw" },
+    { id: "mobility", label: "Mobilitätsbetrieb", combo: "stw" },
+    { id: "energy", label: "Energiewirtschaft", combo: "stw" },
+    {
+      id: "environment",
+      label: "Umweltschutz + Arbeitssicherheit",
+      combo: "stw",
+    },
+    { id: "stw", label: "Stadtwerke", combo: "stadt" },
+    {
+      id: "stadt",
+      label: "Stadt Münster",
+      combo: "bezRegMünster",
+    },
+    {
+      id: "bezRegMünster",
+      label: "Bezierksregierung Münster",
+      combo: "landNrw",
+    },
+    {
+      id: "landNrw",
+      label: "Land Nrw",
+      combo: "de",
+    },
+    {
+      id: "de",
+      label: "Deutschland",
+    },
   ],
   nodes: [
     {

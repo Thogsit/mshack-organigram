@@ -1,4 +1,3 @@
-import Image from "next/image";
 import G6 from "./g6";
 
 export default function Home() {
