@@ -176,12 +176,12 @@ class LevelOfDetail extends BaseBehavior {
     if ("scale" in e.data) {
       const scale = e.data.scale!;
       const level = Object.entries(this.levels).find(
-        ([_, [min, max]]) => scale > min && scale <= max,
+        ([_, [min, max]]) => scale > min && scale <= max
       )?.[0];
       if (level && this.prevLevel !== level) {
         const { graph } = this.context;
         graph.updateNodeData((prev) =>
-          prev.map((node) => ({ ...node, data: { ...node.data, level } })),
+          prev.map((node) => ({ ...node, data: { ...node.data, level } }))
         );
         await graph.draw();
         this.prevLevel = level;
@@ -222,7 +222,7 @@ export default function Visualisation() {
     nodes: [];
   } | null>(null);
 
-  const [activeNode, setActiveNode] = React.useState<EventTarget|null>(null);
+  const [activeNode, setActiveNode] = React.useState<EventTarget | null>(null);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
   useEffect(() => {
@@ -295,10 +295,15 @@ export default function Visualisation() {
             "collapse-expand",
             "level-of-detail",
           ],
-        }),
+        })
       );
     }
-    graph!.on("node:click", (ev: PointerEvent) => {
+  }, [graphData, graph]);
+
+  useEffect(() => {
+    if (!graph) return;
+
+    graph.on("node:click", (ev: PointerEvent) => {
       console.log(`Clicked ${ev}`, ev);
       setActiveNode(ev.target);
       setOpenDialog(true);
@@ -306,14 +311,14 @@ export default function Visualisation() {
     });
 
     graph?.render();
-  });
+  }, [graph]);
 
   return (
-    <div ref={ref}>
-      <EditNodeForm 
-      eventTarget={activeNode}
-      openDialog={openDialog}
-      setOpenDialog={setOpenDialog}
+    <div ref={containerRef}>
+      <EditNodeForm
+        eventTarget={activeNode}
+        openDialog={openDialog}
+        setOpenDialog={setOpenDialog}
       />
     </div>
   );
