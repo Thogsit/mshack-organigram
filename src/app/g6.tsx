@@ -7,6 +7,8 @@ import { data } from "./data";
 import {
   Badge,
   BaseBehavior,
+  ComboData,
+  EdgeData,
   ExtensionCategory,
   Graph,
   GraphEvent,
@@ -225,27 +227,51 @@ export default function () {
             stroke: "#C0C0C0",
           },
         },
+        edge: {
+          style: {
+            labelText: function (this: Graph, d: EdgeData) {
+              return d.label as string;
+            },
+            endArrow: true,
+          },
+        },
+        combo: {
+          style: {
+            labelText: function (this: Graph, d: ComboData) {
+              return d.label as string;
+            },
+            endArrow: true,
+          },
+        },
+
         container: ReactDOM.findDOMNode(ref.current) as any,
         data,
         width: 1500,
         height: 1500,
         layout: {
-          type: "d3-force",
-          preventOverlap: true,
+          //type: "forceAtlas2",
           //kr: 20,
-          //center: [250, 250],
-          collide: {
-            strength: 0.01,
-          },
-          forceSimulation: true,
+          //preventOverlap: true,
+          //nodeSize: 20,
+          //   type: "d3-force",
+          //preventOverlap: true,
+          //collide: {
+          //  strength: 0.01,
+          //},
+          //forceSimulation: true,
+          //layout: {
+          type: "combo-combined",
+          comboPadding: 2,
+          //},
         },
         //autoFit: "view",
         behaviors: [
           "drag-canvas",
           "zoom-canvas",
-          "drag-element-force",
+          "drag-element",
           "click-select",
           "activate-relations",
+          "collapse-expand",
           "level-of-detail",
         ],
       });
