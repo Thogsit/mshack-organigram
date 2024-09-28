@@ -1,4 +1,4 @@
-{
+export const GRAPH_DATA = {
   "combos": [
     { "id": "bezreg_leitung", "label": "Leitung", "combo": "bezRegMünster" },
     {

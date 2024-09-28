@@ -41,16 +41,16 @@ export function EditNodeForm({
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     console.log(data)
+    setOpenDialog(false);
   }
 
     return (
       <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Are you absolutely sure?</DialogTitle>
+            <DialogTitle>Organisation bearbeiten</DialogTitle>
             <DialogDescription>
-              This action cannot be undone. This will permanently delete your account
-              and remove your data from our servers.
+              Schlagen Sie Änderungen an dieser Organisation vor. Diese werden zeitnah geprüft.
             </DialogDescription>
             {eventTarget && (
               <Form {...form}>
@@ -62,11 +62,9 @@ export function EditNodeForm({
                     <FormItem>
                       <FormLabel>Name der Organisation: </FormLabel>
                       <FormControl>
-                        <Input defaultValue={eventTarget.id} type="text" placeholder="Organisation A1" {...field} />
+                        {/*defaultValue={eventTarget.id}*/}
+                        <Input type="text" placeholder="Organisation A1" {...field} />
                       </FormControl>
-                      <FormDescription>
-                        ba ba
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}

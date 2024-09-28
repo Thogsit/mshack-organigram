@@ -1,4 +1,5 @@
 import {Db} from "@/app/db/db";
+import { GRAPH_DATA } from "../graph-data";
 
 /**
  * @swagger
@@ -18,5 +19,5 @@ import {Db} from "@/app/db/db";
  *                 $ref: '#/components/schemas/GraphData'
  */
 export async function GET() {
-    return Response.json(Db.getAsGraphData());
+    return Response.json(GRAPH_DATA);
 }
