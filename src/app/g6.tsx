@@ -23,6 +23,7 @@ import {
 } from "@antv/g6";
 import { dataBezreg } from "./data/bezreg";
 import { DisplayObject } from "@antv/g-lite";
+import { EditNodeForm } from "@/components/changeForm";
 
 const DEFAULT_LEVEL = "detailed";
 
@@ -213,6 +214,9 @@ export default function () {
   const ref = React.useRef(null);
   let graph: Graph | null = null;
 
+  const [activeNode, setActiveNode] = React.useState<EventTarget|null>(null);
+  const [openDialog, setOpenDialog] = React.useState<boolean>(false);
+
   useEffect(() => {
     if (graph == null) {
       const dataSourcses = [data, dataBezreg];
@@ -288,13 +292,23 @@ export default function () {
         ],
       });
     }
-    graph!.on("click", (ev: PointerEvent) => {
-      console.log(`Clicked ${ev}`, ev.target);
+    graph!.on("node:click", (ev: PointerEvent) => {
+      console.log(`Clicked ${ev}`, ev);
+      setActiveNode(ev.target);
+      setOpenDialog(true);
       const shape = ev.target;
     });
 
     graph!.render();
   }, []);
 
-  return <div ref={ref}></div>;
+  return (
+  <div ref={ref}>
+    <EditNodeForm 
+    eventTarget={activeNode}
+    openDialog={openDialog}
+    setOpenDialog={setOpenDialog}
+    />
+  </div>
+);
 }
