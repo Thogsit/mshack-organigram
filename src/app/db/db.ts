@@ -1,10 +1,12 @@
 import {OrgNode} from "@/app/models/OrgNode";
 import {OrgGroup} from "@/app/models/OrgGroup";
+import {OrgEdge} from "@/app/models/OrgEdge";
 
 export class Db {
     private static content: {
         organizations: OrgNode[],
         groups: OrgNode[],
+        edges: OrgEdge[],
     } = {
         organizations: [
             {
@@ -32,7 +34,21 @@ export class Db {
                 id: '2',
                 name: 'Group 2'
             }
-        ]
+        ],
+        edges: [
+            {
+                id: '1',
+                sourceId: '1',
+                targetId: '2',
+                label: 'Edge 1'
+            },
+            {
+                id: '2',
+                sourceId: '2',
+                targetId: '3',
+                label: 'Edge 2',
+            },
+        ],
     };
 
     /*
@@ -105,5 +121,41 @@ export class Db {
         this.content.groups.splice(index, 1);
 
         return group;
+    }
+
+    /*
+     * Edges
+     */
+
+    public static getEdges(): OrgEdge[] {
+        return this.content.edges;
+    }
+
+    public static getEdgeById(id: string): OrgEdge | undefined {
+        return this.content.edges.find(edge => edge.id === id);
+    }
+
+    public static updateEdge(id: string, edge: OrgEdge): void {
+        const index = this.content.edges.findIndex(e => e.id === id);
+        if (index === -1) {
+            throw new Error(`Edge with id ${id} not found`);
+        }
+        this.content.edges[index] = edge;
+    }
+
+    public static addEdge(edge: OrgEdge): OrgEdge {
+        this.content.edges.push(edge);
+        return edge;
+    }
+
+    public static deleteEdge(id: string): OrgEdge {
+        const index = this.content.edges.findIndex(e => e.id === id);
+        if (index === -1) {
+            throw new Error(`Edge with id ${id} not found`);
+        }
+        const edge = this.content.edges[index];
+        this.content.edges.splice(index, 1);
+
+        return edge;
     }
 }
