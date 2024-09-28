@@ -22,7 +22,7 @@ import {Db} from "@/app/db/db";
  *             schema:
  *               type: string
  */
-export async function GET({params}: { params: { id: string } }) {
+export async function GET(_: Request, {params}: { params: { id: string } }) {
     const edge: OrgEdge | undefined = Db.getEdgeById(params.id);
 
     return edge ? Response.json(edge) : new Response('Edge not found', {status: 404});
@@ -113,7 +113,7 @@ export async function POST(req: Request, {params}: { params: { id: string } }) {
  *             schema:
  *               type: string
  */
-export async function DELETE({params}: { params: { id: string } }) {
+export async function DELETE(_: Request, {params}: { params: { id: string } }) {
     const edge = Db.deleteEdge(params.id);
 
     return Response.json(edge);

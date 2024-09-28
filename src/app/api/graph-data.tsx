@@ -1,231 +1,81 @@
 export const GRAPH_DATA = {
   "combos": [
     { "id": "bezreg_leitung", "label": "Leitung", "combo": "bezRegMünster" },
-    {
-      "id": "bezreg_abteilungen",
-      "label": "Abteilungen",
-      "combo": "bezRegMünster"
-    },
-    {
-      "id": "bezreg_regionale_angelegenheiten",
-      "label": "Regionale Angelegenheiten",
-      "combo": "bezRegMünster"
-    },
-    {
-      "id": "bezreg_gesundheitswesen",
-      "label": "Öffentliche Gesundheit und Soziales",
-      "combo": "bezRegMünster"
-    },
+    { "id": "bezreg_abteilungen", "label": "Abteilungen", "combo": "bezRegMünster" },
+    { "id": "bezreg_regionale_angelegenheiten", "label": "Regionale Angelegenheiten", "combo": "bezRegMünster" },
+    { "id": "bezreg_gesundheitswesen", "label": "Öffentliche Gesundheit und Soziales", "combo": "bezRegMünster" },
     { "id": "bezreg_umwelt", "label": "Umwelt", "combo": "bezRegMünster" },
-    {
-      "id": "bezreg_notfall",
-      "label": "Gefahrenabwehr",
-      "combo": "bezRegMünster"
-    },
-    {
-      "id": "bezreg_bildung",
-      "label": "Bildung und Schulen",
-      "combo": "bezRegMünster"
-    },
-    {
-      "id": "bezreg_rechtsangelegenheiten",
-      "label": "Rechtsangelegenheiten und Governance",
-      "combo": "bezRegMünster"
-    },
-    {
-      "id": "bezreg_personal",
-      "label": "Personalwesen",
-      "combo": "bezRegMünster"
-    },
-    { "id": "bezRegMünster", "label": "Bezrksregierung Münster" }
+    { "id": "bezreg_notfall", "label": "Gefahrenabwehr", "combo": "bezRegMünster" },
+    { "id": "bezreg_bildung", "label": "Bildung und Schulen", "combo": "bezRegMünster" },
+    { "id": "bezreg_rechtsangelegenheiten", "label": "Rechtsangelegenheiten und Governance", "combo": "bezRegMünster" },
+    { "id": "bezreg_personal", "label": "Personalwesen", "combo": "bezRegMünster" },
+    { "id": "gf", "label": "Geschäftsführung", "combo": "stw" },
+    { "id": "vp", "label": "Vertrieb + Prozessmanagement", "combo": "stw" },
+    { "id": "it", "label": "IT-Management", "combo": "stw" },
+    { "id": "marketing", "label": "Produktmanagement + Marketing", "combo": "stw" },
+    { "id": "hr", "label": "Personal", "combo": "stw" },
+    { "id": "finance", "label": "Finanzmanagement + Finanzierung", "combo": "stw" },
+    { "id": "mobility", "label": "Mobilitätsbetrieb", "combo": "stw" },
+    { "id": "energy", "label": "Energiewirtschaft", "combo": "stw" },
+    { "id": "environment", "label": "Umweltschutz + Arbeitssicherheit", "combo": "stw" },
+    { "id": "stw", "label": "Stadtwerke", "combo": "stadt" },
+    { "id": "stadt", "label": "Stadt Münster", "combo": "bezreg_ms" },
+    { "id": "bezreg_ms", "label": "Bezierksregierung Münster", "combo": "landNrw" },
+    { "id": "landNrw", "label": "Land Nrw", "combo": "de" },
+    { "id": "de", "label": "Deutschland" }
   ],
   "nodes": [
-    {
-      "combo": "bezreg_leitung",
-      "id": "bezreg_0",
-      "data": {
-        "name": "Dr. Silwedel",
-        "position": "Leitung",
-        "contact": "2318 / T"
-      }
-    },
-    {
-      "combo": "bezreg_gesundheitswesen",
-      "id": "bezreg_1",
-      "data": {
-        "name": "Dr. Waßmann",
-        "position": "Medizinische Leitung",
-        "contact": "3126 / T"
-      }
-    },
-    {
-      "combo": "bezreg_umwelt",
-      "id": "bezreg_2",
-      "data": {
-        "name": "Lauth, RBD'in",
-        "position": "Umweltangelegenheiten",
-        "contact": "1413 / N"
-      }
-    },
-    {
-      "combo": "bezreg_abteilungen",
-      "id": "bezreg_3",
-      "data": {
-        "name": "Dr. Waurick",
-        "position": "Regulierungsleitung",
-        "contact": "3126 / T"
-      }
-    },
-    {
-      "combo": "bezreg_regionale_angelegenheiten",
-      "id": "bezreg_4",
-      "data": {
-        "name": "Dr. Zander-Kallerhoff",
-        "position": "Regionale Angelegenheiten",
-        "contact": "2510 / T"
-      }
-    },
-    {
-      "combo": "bezreg_bildung",
-      "id": "bezreg_5",
-      "data": {
-        "name": "Scholz, LRSD'in",
-        "position": "Bildungsabteilung",
-        "contact": "4183 / N"
-      }
-    },
-    {
-      "combo": "bezreg_notfall",
-      "id": "bezreg_6",
-      "data": {
-        "name": "Poguntke, LRD'in",
-        "position": "Gefahrenabwehr",
-        "contact": "1660 / T"
-      }
-    },
-    {
-      "combo": "bezreg_umwelt",
-      "id": "bezreg_7",
-      "data": {
-        "name": "Sahrhage, LRD",
-        "position": "Umweltschutz",
-        "contact": "1538 / N"
-      }
-    },
-    {
-      "combo": "bezreg_abteilungen",
-      "id": "bezreg_8",
-      "data": {
-        "name": "Beatrix-Heß, LRD'in",
-        "position": "Abteilungsleiterin",
-        "contact": "1447 / T"
-      }
-    },
-    {
-      "combo": "bezreg_rechtsangelegenheiten",
-      "id": "bezreg_9",
-      "data": {
-        "name": "Dr. Waßmann",
-        "position": "Leitung Rechtsangelegenheiten",
-        "contact": "2043 / T"
-      }
-    },
-    {
-      "combo": "bezreg_personal",
-      "id": "bezreg_10",
-      "data": {
-        "name": "Dr. Neubert, ORR'in",
-        "position": "Personalwesen",
-        "contact": "1446 / A"
-      }
-    },
-    {
-      "combo": "bezreg_rechtsangelegenheiten",
-      "id": "bezreg_11",
-      "data": {
-        "name": "Schmidt, RD'in",
-        "position": "Rechtsberaterin",
-        "contact": "2043 / T"
-      }
-    },
-    {
-      "combo": "bezreg_rechtsangelegenheiten",
-      "id": "bezreg_12",
-      "data": {
-        "name": "Poguntke, LRD'in",
-        "position": "Ordnungsrechtliche Angelegenheiten",
-        "contact": "2043 / T"
-      }
-    },
-    {
-      "combo": "bezreg_personal",
-      "id": "bezreg_13",
-      "data": {
-        "name": "Grotendorst, RBr",
-        "position": "Personalentwicklung",
-        "contact": "1446 / A"
-      }
-    },
-    {
-      "combo": "bezreg_personal",
-      "id": "bezreg_14",
-      "data": {
-        "name": "Knebelkamp, ORR",
-        "position": "Koordination Personalwesen",
-        "contact": "2510 / T"
-      }
-    }
+    { "combo": "bezreg_leitung", "id": "bezreg_0", "data": { "name": "Dr. Silwedel", "position": "Leitung", "contact": "2318 / T" } },
+    { "combo": "bezreg_gesundheitswesen", "id": "bezreg_1", "data": { "name": "Dr. Waßmann", "position": "Medizinische Leitung", "contact": "3126 / T" } },
+    { "combo": "bezreg_umwelt", "id": "bezreg_2", "data": { "name": "Lauth, RBD'in", "position": "Umweltangelegenheiten", "contact": "1413 / N" } },
+    { "combo": "bezreg_abteilungen", "id": "bezreg_3", "data": { "name": "Dr. Waurick", "position": "Regulierungsleitung", "contact": "3126 / T" } },
+    { "combo": "bezreg_regionale_angelegenheiten", "id": "bezreg_4", "data": { "name": "Dr. Zander-Kallerhoff", "position": "Regionale Angelegenheiten", "contact": "2510 / T" } },
+    { "combo": "bezreg_bildung", "id": "bezreg_5", "data": { "name": "Scholz, LRSD'in", "position": "Bildungsabteilung", "contact": "4183 / N" } },
+    { "combo": "bezreg_notfall", "id": "bezreg_6", "data": { "name": "Poguntke, LRD'in", "position": "Gefahrenabwehr", "contact": "1660 / T" } },
+    { "combo": "bezreg_umwelt", "id": "bezreg_7", "data": { "name": "Sahrhage, LRD", "position": "Umweltschutz", "contact": "1538 / N" } },
+    { "combo": "bezreg_abteilungen", "id": "bezreg_8", "data": { "name": "Beatrix-Heß, LRD'in", "position": "Abteilungsleiterin", "contact": "1447 / T" } },
+    { "combo": "bezreg_rechtsangelegenheiten", "id": "bezreg_9", "data": { "name": "Dr. Waßmann", "position": "Leitung Rechtsangelegenheiten", "contact": "2043 / T" } },
+    { "combo": "bezreg_personal", "id": "bezreg_10", "data": { "name": "Dr. Neubert, ORR'in", "position": "Personalwesen", "contact": "1446 / A" } },
+    { "combo": "bezreg_rechtsangelegenheiten", "id": "bezreg_11", "data": { "name": "Schmidt, RD'in", "position": "Rechtsberaterin", "contact": "2043 / T" } },
+    { "combo": "bezreg_rechtsangelegenheiten", "id": "bezreg_12", "data": { "name": "Poguntke, LRD'in", "position": "Ordnungsrechtliche Angelegenheiten", "contact": "2043 / T" } },
+    { "combo": "bezreg_personal", "id": "bezreg_13", "data": { "name": "Grotendorst, RBr", "position": "Personalentwicklung", "contact": "1446 / A" } },
+    { "combo": "bezreg_personal", "id": "bezreg_14", "data": { "name": "Knebelkamp, ORR", "position": "Koordination Personalwesen", "contact": "2510 / T" } },
+    { "combo": "gf", "id": "0", "data": { "name": "Sebastian Jurczyk", "position": "Vorsitzender der GF" } },
+    { "combo": "gf", "id": "1", "data": { "name": "Frank Gäfgen", "position": "GF" } },
+    { "combo": "vp", "id": "2", "data": { "name": "Thomas Richter", "position": "Prozesssteuerung" } },
+    { "combo": "it", "id": "3", "data": { "name": "Peter Knoll", "position": "IT-Management" } },
+    { "combo": "vp", "id": "4", "data": { "name": "Dirk Blasberg", "position": "Portfoliomanagement" } },
+    { "combo": "marketing", "id": "5", "data": { "name": "MK-PM", "position": "Produktmanagement + Marketing" } },
+    { "combo": "hr", "id": "6", "data": { "name": "KG-PE", "position": "Personal" } },
+    { "combo": "finance", "id": "7", "data": { "name": "Benedikt Schröder", "position": "Finanzmanagement + Finanzierung" } },
+    { "combo": "mobility", "id": "8", "data": { "name": "MB-WF", "position": "Werkstatt Fahrzeugflotte" } },
+    { "combo": "mobility", "id": "9", "data": { "name": "MB-FB", "position": "Fahrbetrieb" } },
+    { "combo": "energy", "id": "10", "data": { "name": "E", "position": "Energie" } },
+    { "combo": "environment", "id": "11", "data": { "name": "UA", "position": "Umweltschutz + Arbeitssicherheit" } }
   ],
   "edges": [
     {
-      "target": "bezreg_leitung",
-      "source": "bezreg_abteilungen",
-      "label": "Überwacht"
+      "source": "bezreg_ms",
+      "target": "bezreg_abteilungen",
+      "label": "Enthält"
     },
-    {
-      "target": "bezreg_regionale_angelegenheiten",
-      "source": "bezreg_leitung",
-      "label": "Berichtet an"
-    },
-    {
-      "target": "bezreg_gesundheitswesen",
-      "source": "bezreg_leitung",
-      "label": "Berichtet an"
-    },
-    {
-      "target": "bezreg_umwelt",
-      "source": "bezreg_leitung",
-      "label": "Berichtet an"
-    },
-    {
-      "target": "bezreg_notfall",
-      "source": "bezreg_leitung",
-      "label": "Berichtet an"
-    },
-    {
-      "target": "bezreg_bildung",
-      "source": "bezreg_leitung",
-      "label": "Berichtet an"
-    },
-    {
-      "target": "bezreg_rechtsangelegenheiten",
-      "source": "bezreg_leitung",
-      "label": "Berichtet an"
-    },
-    {
-      "target": "bezreg_personal",
-      "source": "bezreg_leitung",
-      "label": "Berichtet an"
-    },
-    {
-      "target": "bezreg_rechtsangelegenheiten",
-      "source": "bezreg_gesundheitswesen",
-      "label": "Kooperiert mit"
-    },
-    {
-      "target": "bezreg_personal",
-      "source": "bezreg_gesundheitswesen",
-      "label": "Kooperiert mit"
-    }
+    { "target": "bezreg_leitung", "source": "bezreg_abteilungen", "label": "Überwacht" },
+    { "target": "bezreg_regionale_angelegenheiten", "source": "bezreg_leitung", "label": "Berichtet an" },
+    { "target": "bezreg_gesundheitswesen", "source": "bezreg_leitung", "label": "Berichtet an" },
+    { "target": "bezreg_umwelt", "source": "bezreg_leitung", "label": "Berichtet an" },
+    { "target": "bezreg_notfall", "source": "bezreg_leitung", "label": "Berichtet an" },
+    { "target": "bezreg_bildung", "source": "bezreg_leitung", "label": "Berichtet an" },
+    { "target": "bezreg_rechtsangelegenheiten", "source": "bezreg_leitung", "label": "Berichtet an" },
+    { "target": "bezreg_personal", "source": "bezreg_leitung", "label": "Berichtet an" },
+    { "target": "bezreg_rechtsangelegenheiten", "source": "bezreg_gesundheitswesen", "label": "Kooperiert mit" },
+    { "target": "bezreg_personal", "source": "bezreg_gesundheitswesen", "label": "Kooperiert mit" },
+    { "source": "gf", "target": "vp", "label": "Reports to" },
+    { "source": "gf", "target": "it", "label": "Reports to" },
+    { "source": "gf", "target": "marketing", "label": "Reports to" },
+    { "source": "gf", "target": "hr", "label": "Reports to" },
+    { "source": "gf", "target": "finance", "label": "Reports to" },
+    { "source": "gf", "target": "mobility", "label": "Reports to" },
+    { "source": "gf", "target": "energy", "label": "Reports to" },
+    { "source": "gf", "target": "environment", "label": "Reports to" }
   ]
 }

@@ -22,7 +22,7 @@ import {OrgNode, OrgNodeDto} from "@/app/models/OrgNode";
  *             schema:
  *               type: string
  */
-export async function GET({params}: { params: { id: string } }) {
+export async function GET(_: Request, {params}: { params: { id: string } }) {
     const org: OrgNode | undefined = Db.getOrganizationById(params.id);
 
     return org ? Response.json(org) : new Response('Organization not found', {status: 404});
@@ -113,7 +113,7 @@ export async function POST(req: Request, {params}: { params: { id: string } }) {
  *             schema:
  *               type: string
  */
-export async function DELETE({params}: { params: { id: string } }) {
+export async function DELETE(_: Request, {params}: { params: { id: string } }) {
     const org = Db.deleteOrganization(params.id);
 
     return Response.json(org);

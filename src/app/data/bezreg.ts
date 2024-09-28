@@ -1,31 +1,31 @@
 export const dataBezreg = {
   combos: [
-    { id: "bezreg_leitung", label: "Leitung", combo: "bezRegMünster" },
-    { id: "bezreg_abteilungen", label: "Abteilungen", combo: "bezRegMünster" },
+    { id: "bezreg_leitung", label: "Leitung", combo: "bezreg_ms" },
+    { id: "bezreg_abteilungen", label: "Abteilungen", combo: "bezreg_ms" },
     {
       id: "bezreg_regionale_angelegenheiten",
       label: "Regionale Angelegenheiten",
 
-      combo: "bezRegMünster",
+      combo: "bezreg_ms",
     },
     {
       id: "bezreg_gesundheitswesen",
       label: "Öffentliche Gesundheit und Soziales",
-      combo: "bezRegMünster",
+      combo: "bezreg_ms",
     },
-    { id: "bezreg_umwelt", label: "Umwelt", combo: "bezRegMünster" },
-    { id: "bezreg_notfall", label: "Gefahrenabwehr", combo: "bezRegMünster" },
+    { id: "bezreg_umwelt", label: "Umwelt", combo: "bezreg_ms" },
+    { id: "bezreg_notfall", label: "Gefahrenabwehr", combo: "bezreg_ms" },
     {
       id: "bezreg_bildung",
       label: "Bildung und Schulen",
-      combo: "bezRegMünster",
+      combo: "bezreg_ms",
     },
     {
       id: "bezreg_rechtsangelegenheiten",
       label: "Rechtsangelegenheiten und Governance",
-      combo: "bezRegMünster",
+      combo: "bezreg_ms",
     },
-    { id: "bezreg_personal", label: "Personalwesen", combo: "bezRegMünster" },
+    { id: "bezreg_personal", label: "Personalwesen", combo: "bezreg_ms" },
   ],
   nodes: [
     {
@@ -217,11 +217,11 @@ export const dataBezreg = {
     },
     {
       target: "bezreg_3",
-      source: "bezRegMünster",
+      source: "bezreg_ms",
     },
     {
       target: "bezreg_1",
-      source: "bezRegMünster",
+      source: "bezreg_ms",
     },
   ],
 };
