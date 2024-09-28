@@ -13,6 +13,7 @@ import {
   ExtensionCategory,
   Graph,
   GraphEvent,
+  IEvent,
   IViewportEvent,
   Label,
   Rect,
@@ -83,7 +84,8 @@ class ChartNode extends Rect {
   getKeyStyle(attributes: any) {
     return {
       ...super.getKeyStyle(attributes),
-      fill: this.level === "overview" ? statusColors[this.data.status] : "#fff",
+      fill:
+        this.level === "overview" ? STATUS_COLORS[this.data.status] : "#fff",
     };
   }
 
@@ -264,34 +266,33 @@ export default function () {
         width: 1500,
         height: 1500,
         layout: {
-          //type: "forceAtlas2",
+          type: "force",
           //kr: 20,
           //preventOverlap: true,
           //nodeSize: 20,
           //type: "d3-force",
           //forceSimulation: true,
           //layout: {
-          type: "grid",
-          comboPadding: 120,
-          preventOverlap: true,
-          outerLayout: {
-            type: "ForceLayout",
-            preventOverlap: true,
-            nodeSize: 200,
-          },
+          //type: "grid",
+          //comboPadding: 120,
+          //preventOverlap: true,
         },
         autoFit: "view",
         behaviors: [
           "drag-canvas",
           "zoom-canvas",
-          "drag-element",
           "click-select",
           "activate-relations",
-          "collapse-expand",
+          //"collapse-expand",
           "level-of-detail",
         ],
       });
     }
+    graph!.on("click", (ev: PointerEvent) => {
+      console.log(`Clicked ${ev}`, ev.target);
+      const shape = ev.target;
+    });
+
     graph!.render();
   }, []);
 
