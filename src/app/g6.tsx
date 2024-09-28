@@ -182,7 +182,6 @@ class LevelOfDetail extends BaseBehavior {
         graph.updateNodeData((prev) =>
           prev.map((node) => ({ ...node, data: { ...node.data, level } })),
         );
-        console.log("foo");
         await graph.draw();
         this.prevLevel = level;
       }
@@ -299,7 +298,6 @@ export default function Visualisation() {
       console.log(`Clicked ${ev}`, ev.target);
       const shape = ev.target;
     });
-    console.log("Render", graph);
 
     graph?.render();
   });

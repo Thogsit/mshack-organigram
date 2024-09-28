@@ -66,11 +66,12 @@ function findShortestPaths(nodes: GraphNode[], edges: Edge[]) {
 
 // Function to transform dataset
 export function transformDataset(dataset: GraphData): GraphData {
+  console.log("exist", dataset);
   const newNodes = dataset.combos.map((combo) => ({
     id: combo.id,
     data: {
       name: combo.label,
-      position: "",
+      position: "Organisation",
       contact: "",
     },
   }));
