@@ -65,7 +65,7 @@ export async function PUT(req: Request, {params}: { params: { id: string } }) {
 
 /**
  * @swagger
- * /api/group/{id}:
+ * /api/groups/{id}:
  *   post:
  *     description: Adds a new group
  *     tags:
