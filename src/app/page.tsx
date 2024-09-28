@@ -1,11 +1,13 @@
 "use client"; // This directive marks the component as a Client Component
 
-import G6 from "./g6";
-import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { data } from "./data";
 import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button";
+import G6 from "./g6";
 import Link from "next/link";
+import { Input } from "@/components/ui/input";
+import { useState } from 'react';
+import { data } from './data';
+import Image from 'next/image'; // Import the Image component from Next.js
 
 export default function Home() {
   const [searchValue, setSearchValue] = useState<string>("");
@@ -61,6 +63,13 @@ export default function Home() {
   <Button style={{ backgroundColor: '#006d80', color: 'white'}} onClick={handleSearch}>
     Suche
   </Button>
+        {/* Add the logo image here */}
+        <Image
+            src="/mshack.png"
+            alt="MSHack Logo"
+            width={100}
+            height={100}
+        />
 </div>
 
 
@@ -96,4 +105,6 @@ export default function Home() {
     </main>
   );
 }
+
+
 
