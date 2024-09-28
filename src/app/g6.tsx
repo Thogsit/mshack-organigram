@@ -20,6 +20,7 @@ import {
   RuntimeContext,
 } from "@antv/g6";
 import { DisplayObject } from "@antv/g-lite";
+import { transformDataset } from "./data/utils";
 
 const DEFAULT_LEVEL = "detailed";
 
@@ -264,7 +265,7 @@ export default function Visualisation() {
           },
 
           container: containerRef.current,
-          data: graphData,
+          data: transformDataset(graphData),
           width: 1500,
           height: 1500,
           layout: {
@@ -272,14 +273,11 @@ export default function Visualisation() {
             //innerLayout: new DagreLayout({}),
             //outerLayout: new DagreLayout({}),
             //kr: 20,
-            //preventOverlap: true,
-            //nodeSize: 20,
             //type: "d3-force",
             //forceSimulation: true,
             //layout: {
-            type: "grid",
+            type: "dagre",
             //comboPadding: 120,
-            preventOverlap: true,
           },
           autoFit: "view",
           behaviors: [
