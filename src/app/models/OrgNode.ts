@@ -1,16 +1,16 @@
 export class OrgNodeDto {
-  name: string;
+  data: GraphNodeData;
   groupId?: string;
 
-  constructor(name: string, groupId?: string) {
-    this.name = name;
+  constructor(data: GraphNodeData, groupId?: string) {
+    this.data = data;
     this.groupId = groupId;
   }
 
   public toOrgNode(id: string): OrgNode {
     return {
       id,
-      name: this.name,
+      data: this.data,
       groupId: this.groupId,
     };
   }
@@ -18,17 +18,17 @@ export class OrgNodeDto {
 
 export class OrgNode {
   id: string;
-  name: string;
+  data: GraphNodeData;
   groupId?: string;
 
-  constructor(id: string, name: string, groupId?: string) {
+  constructor(id: string, data: GraphNodeData, groupId?: string) {
     this.id = id;
-    this.name = name;
+    this.data = data;
     this.groupId = groupId;
   }
 
   public static fromGraphNode(node: GraphNode): OrgNode {
-    return new OrgNode(node.id, node.data.name, node.combo);
+    return new OrgNode(node.id, node.data, node.combo);
   }
 }
 
@@ -48,6 +48,6 @@ export class GraphNode {
   }
 
   public static fromOrgNode(node: OrgNode): GraphNode {
-    return new GraphNode(node.id, { name: node.name }, node.groupId);
+    return new GraphNode(node.id, node.data, node.groupId);
   }
 }
