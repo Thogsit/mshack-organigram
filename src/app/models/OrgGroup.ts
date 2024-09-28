@@ -16,10 +16,20 @@ export class OrgGroupDto {
     }
 }
 
-export interface OrgGroup {
+export class OrgGroup {
     id: string;
     name: string;
     groupId?: string;
+
+    constructor(id: string, name: string, groupId?: string) {
+        this.id = id;
+        this.name = name;
+        this.groupId = groupId;
+    }
+
+    public static fromGraphCombo(combo: GraphCombo): OrgGroup {
+        return new OrgGroup(combo.id, combo.label, combo.combo);
+    }
 }
 
 export class GraphCombo {

@@ -215,5 +215,13 @@ export const dataBezreg = {
       source: "bezreg_gesundheitswesen",
       label: "Kooperiert mit",
     },
+    {
+      target: "bezreg_3",
+      source: "bezRegMünster",
+    },
+    {
+      target: "bezreg_1",
+      source: "bezRegMünster",
+    },
   ],
 };

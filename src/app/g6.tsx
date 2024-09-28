@@ -1,8 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
-import ReactDOM from "react-dom";
-import { data } from "./data";
+import React, { useEffect, useRef, useState } from "react";
 
 import {
   Badge,
@@ -13,17 +11,17 @@ import {
   ExtensionCategory,
   Graph,
   GraphEvent,
-  IEvent,
   IViewportEvent,
   Label,
+  LabelStyleProps,
   Rect,
   RectStyleProps,
   register,
   RuntimeContext,
 } from "@antv/g6";
-import { dataBezreg } from "./data/bezreg";
 import { DisplayObject } from "@antv/g-lite";
 import { EditNodeForm } from "@/components/changeForm";
+import { transformDataset } from "./data/utils";
 
 const DEFAULT_LEVEL = "detailed";
 
@@ -36,12 +34,6 @@ export interface ChartNodeData {
   status: "online" | "busy" | "offline";
 }
 
-const COLOR_MAP = {
-  error: "#f5222d",
-  overload: "#faad14",
-  running: "#52c41a",
-};
-
 const STATUS_COLORS = {
   online: "#17BEBB",
   busy: "#E36397",
@@ -51,38 +43,44 @@ const STATUS_COLORS = {
 /**
  * Draw a chart node with different ui based on the zoom level.
  */
+
+const overviewLabelStyle = {
+  fill: "#2078B4",
+  fontSize: 20,
+  fontWeight: 600,
+  textAlign: "center",
+  transform: "translate(0,0)",
+};
+
+const regularLabelStyle = {
+  fill: "#2078B4",
+  fontSize: 14,
+  fontWeight: 400,
+  textAlign: "left",
+  transform: "translate(-65, -15)",
+};
+
 class ChartNode extends Rect {
   get data(): ChartNodeData {
     return this.context.model.getElementDataById(this.id)
-      .data as any as ChartNodeData;
+      .data as unknown as ChartNodeData;
   }
 
   get level() {
     return this.data!.level || DEFAULT_LEVEL;
   }
 
-  getLabelStyle(): any {
-    const text = this.data!.name ?? "";
-    const labelStyle =
-      this.level === "overview"
-        ? {
-            fill: "#fff",
-            fontSize: 20,
-            fontWeight: 600,
-            textAlign: "center",
-            transform: "translate(0,0)",
-          }
-        : {
-            fill: "#2078B4",
-            fontSize: 14,
-            fontWeight: 400,
-            textAlign: "left",
-            transform: "translate(-65, -15)",
-          };
-    return { text, ...labelStyle };
+  getLabelStyle() {
+    const labelStyle = {
+      text: this.data!.name ?? "",
+      ...(this.level === "overview" ? overviewLabelStyle : regularLabelStyle),
+    } as LabelStyleProps;
+    console.log(this.level);
+
+    return labelStyle;
   }
 
-  getKeyStyle(attributes: any) {
+  getKeyStyle(attributes: Required<RectStyleProps>) {
     return {
       ...super.getKeyStyle(attributes),
       fill:
@@ -90,7 +88,7 @@ class ChartNode extends Rect {
     };
   }
 
-  getPositionStyle(_: RectStyleProps) {
+  getPositionStyle() {
     if (this.level === "overview") return false;
     return {
       text: this.data.position,
@@ -104,7 +102,7 @@ class ChartNode extends Rect {
   }
 
   drawPositionShape(attributes: any, container: any) {
-    const positionStyle = this.getPositionStyle(attributes);
+    const positionStyle = this.getPositionStyle();
     this.upsert("position", Label, positionStyle as any, container);
   }
 
@@ -139,7 +137,7 @@ class ChartNode extends Rect {
 
   drawPhoneShape(_: RectStyleProps, container: DisplayObject) {
     const style = this.getPhoneStyle();
-    this.upsert("phone", Label, style as any, container);
+    this.upsert("phone", Label, style, container);
   }
 
   render(attributes = this.parsedAttributes, container = this) {
@@ -178,7 +176,7 @@ class LevelOfDetail extends BaseBehavior {
     if ("scale" in e.data) {
       const scale = e.data.scale!;
       const level = Object.entries(this.levels).find(
-        ([_, [min, max]]: any) => scale > min && scale <= max,
+        ([_, [min, max]]) => scale > min && scale <= max,
       )?.[0];
       if (level && this.prevLevel !== level) {
         const { graph } = this.context;
@@ -210,87 +208,95 @@ class LevelOfDetail extends BaseBehavior {
 register(ExtensionCategory.NODE, "chart-node", ChartNode);
 register(ExtensionCategory.BEHAVIOR, "level-of-detail", LevelOfDetail);
 
-export default function () {
-  const ref = React.useRef(null);
-  let graph: Graph | null = null;
+async function getGraphData(): Promise<any> {
+  const r = await fetch("/api/graph");
+  return await r.json();
+}
+
+export default function Visualisation() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [graph, setGraph] = useState<Graph | null>(null);
+  let [graphData, setGraphData] = useState<{
+    edges: [];
+    combos: [];
+    nodes: [];
+  } | null>(null);
 
   const [activeNode, setActiveNode] = React.useState<EventTarget|null>(null);
   const [openDialog, setOpenDialog] = React.useState<boolean>(false);
 
   useEffect(() => {
-    if (graph == null) {
-      const dataSourcses = [data, dataBezreg];
-      const dataset = dataSourcses.reduce(
-        (prev, curr) => ({
-          combos: [...prev.combos, ...curr.combos],
-          nodes: [...prev.nodes, ...curr.nodes],
-          edges: [...prev.edges, ...curr.edges],
+    getGraphData().then((data) => {
+      setGraphData(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (graph == null && graphData != null && containerRef.current != null) {
+      setGraph(
+        new Graph({
+          node: {
+            type: "chart-node",
+            style: {
+              labelPlacement: "center",
+              lineWidth: 1,
+              ports: [{ placement: "top" }, { placement: "bottom" }],
+              radius: 2,
+              shadowBlur: 10,
+              shadowColor: "#e0e0e0",
+              shadowOffsetX: 3,
+              size: [150, 60],
+              stroke: "#C0C0C0",
+            },
+          },
+          edge: {
+            style: {
+              labelText: function (this: Graph, d: EdgeData) {
+                return d.label as string;
+              },
+              endArrow: true,
+            },
+          },
+          combo: {
+            type: "rect",
+            style: {
+              labelText: function (this: Graph, d: ComboData) {
+                return d.label as string;
+              },
+              labelCfg: {
+                position: "top",
+              },
+              endArrow: true,
+            },
+          },
+
+          container: containerRef.current,
+          data: transformDataset(graphData),
+          width: window.innerWidth,
+          height: window.innerHeight,
+          layout: {
+            //type: "combo-combined",
+            //innerLayout: new DagreLayout({}),
+            //outerLayout: new DagreLayout({}),
+            //kr: 20,
+            //type: "d3-force",
+            //forceSimulation: true,
+            //layout: {
+            //type: "dagre",
+            type: "antv-dagre",
+            //comboPadding: 120,
+          },
+          autoFit: "view",
+          behaviors: [
+            "drag-canvas",
+            "zoom-canvas",
+            "click-select",
+            "activate-relations",
+            "collapse-expand",
+            "level-of-detail",
+          ],
         }),
-        { combos: [], nodes: [], edges: [] },
       );
-
-      graph = new Graph({
-        node: {
-          type: "chart-node",
-          style: {
-            labelPlacement: "center",
-            lineWidth: 1,
-            ports: [{ placement: "top" }, { placement: "bottom" }],
-            radius: 2,
-            shadowBlur: 10,
-            shadowColor: "#e0e0e0",
-            shadowOffsetX: 3,
-            size: [150, 60],
-            stroke: "#C0C0C0",
-          },
-        },
-        edge: {
-          style: {
-            labelText: function (this: Graph, d: EdgeData) {
-              return d.label as string;
-            },
-            endArrow: true,
-          },
-        },
-        combo: {
-          type: "rect",
-          style: {
-            labelText: function (this: Graph, d: ComboData) {
-              return d.label as string;
-            },
-            labelCfg: {
-              position: "top",
-            },
-            endArrow: true,
-          },
-        },
-
-        container: ReactDOM.findDOMNode(ref.current) as any,
-        data: dataset,
-        width: 1500,
-        height: 1500,
-        layout: {
-          type: "force",
-          //kr: 20,
-          //preventOverlap: true,
-          //nodeSize: 20,
-          //type: "d3-force",
-          //forceSimulation: true,
-          //layout: {
-          //type: "grid",
-          //comboPadding: 120,
-          //preventOverlap: true,
-        },
-        autoFit: "view",
-        behaviors: [
-          "drag-canvas",
-          "zoom-canvas",
-          "click-select",
-          "activate-relations",
-          //"collapse-expand",
-          "level-of-detail",
-        ],
-      });
     }
     graph!.on("node:click", (ev: PointerEvent) => {
       console.log(`Clicked ${ev}`, ev);
@@ -299,16 +305,16 @@ export default function () {
       const shape = ev.target;
     });
 
-    graph!.render();
-  }, []);
+    graph?.render();
+  });
 
   return (
-  <div ref={ref}>
-    <EditNodeForm 
-    eventTarget={activeNode}
-    openDialog={openDialog}
-    setOpenDialog={setOpenDialog}
-    />
-  </div>
-);
+    <div ref={ref}>
+      <EditNodeForm 
+      eventTarget={activeNode}
+      openDialog={openDialog}
+      setOpenDialog={setOpenDialog}
+      />
+    </div>
+  );
 }
