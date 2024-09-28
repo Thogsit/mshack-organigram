@@ -34,6 +34,8 @@ export class OrgNode {
 
 export interface GraphNodeData {
   name: string;
+  contact?: string;
+  position?: string;
 }
 
 export class GraphNode {

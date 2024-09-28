@@ -79,7 +79,7 @@ export function transformDataset(dataset: GraphData): GraphData {
   const newEdges: Edge[] = dataset.nodes.map((node) => ({
     source: node.combo!,
     target: node.id,
-    label: "Contains",
+    label: "",
   }));
 
   // If combos have parent-child relationships (like combo key in Combo)
@@ -88,7 +88,7 @@ export function transformDataset(dataset: GraphData): GraphData {
     .map((combo) => ({
       source: combo.combo!,
       target: combo.id,
-      label: "Contains",
+      label: "",
     }));
 
   const combinedNodes = [...dataset.nodes, ...newNodes];

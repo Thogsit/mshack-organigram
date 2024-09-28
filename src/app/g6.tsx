@@ -29,7 +29,7 @@ export interface ChartNodeData {
   name: string;
   level: string;
   position: string;
-  phone: string;
+  contact: string;
   status: "online" | "busy" | "offline";
 }
 
@@ -126,7 +126,7 @@ class ChartNode extends Rect {
   getPhoneStyle() {
     if (this.level === "overview") return false;
     return {
-      text: this.data.phone,
+      text: this.data.contact,
       fontSize: 8,
       fontWeight: 300,
       textAlign: "left",
@@ -136,7 +136,7 @@ class ChartNode extends Rect {
 
   drawPhoneShape(_: RectStyleProps, container: DisplayObject) {
     const style = this.getPhoneStyle();
-    this.upsert("phone", Label, style, container);
+    this.upsert("contact", Label, style, container);
   }
 
   render(attributes = this.parsedAttributes, container = this) {
@@ -250,7 +250,6 @@ export default function Visualisation() {
               labelText: function (this: Graph, d: EdgeData) {
                 return d.label as string;
               },
-              endArrow: true,
             },
           },
           combo: {
