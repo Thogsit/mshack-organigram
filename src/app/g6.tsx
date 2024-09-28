@@ -44,7 +44,7 @@ const STATUS_COLORS = {
  */
 
 const overviewLabelStyle = {
-  fill: "#fff",
+  fill: "#2078B4",
   fontSize: 20,
   fontWeight: 600,
   textAlign: "center",
@@ -74,6 +74,7 @@ class ChartNode extends Rect {
       text: this.data!.name ?? "",
       ...(this.level === "overview" ? overviewLabelStyle : regularLabelStyle),
     } as LabelStyleProps;
+    console.log(this.level);
 
     return labelStyle;
   }
@@ -100,7 +101,7 @@ class ChartNode extends Rect {
   }
 
   drawPositionShape(attributes: any, container: any) {
-    const positionStyle = this.getPositionStyle(attributes);
+    const positionStyle = this.getPositionStyle();
     this.upsert("position", Label, positionStyle as any, container);
   }
 
@@ -181,6 +182,7 @@ class LevelOfDetail extends BaseBehavior {
         graph.updateNodeData((prev) =>
           prev.map((node) => ({ ...node, data: { ...node.data, level } })),
         );
+        console.log("foo");
         await graph.draw();
         this.prevLevel = level;
       }
@@ -225,6 +227,7 @@ export default function Visualisation() {
       setGraphData(data);
     });
   }, []);
+
   useEffect(() => {
     if (graph == null && graphData != null && containerRef.current != null) {
       setGraph(
@@ -266,8 +269,8 @@ export default function Visualisation() {
 
           container: containerRef.current,
           data: transformDataset(graphData),
-          width: 1500,
-          height: 1500,
+          width: window.innerWidth,
+          height: window.innerHeight,
           layout: {
             //type: "combo-combined",
             //innerLayout: new DagreLayout({}),
@@ -276,7 +279,8 @@ export default function Visualisation() {
             //type: "d3-force",
             //forceSimulation: true,
             //layout: {
-            type: "dagre",
+            //type: "dagre",
+            type: "antv-dagre",
             //comboPadding: 120,
           },
           autoFit: "view",
