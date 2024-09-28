@@ -1,6 +1,6 @@
-import {OrgNode} from "@/app/models/OrgNode";
-import {OrgGroup} from "@/app/models/OrgGroup";
-import {OrgEdge} from "@/app/models/OrgEdge";
+import {GraphNode, OrgNode} from "@/app/models/OrgNode";
+import {GraphCombo, OrgGroup} from "@/app/models/OrgGroup";
+import {GraphEdge, OrgEdge} from "@/app/models/OrgEdge";
 
 export class Db {
     private static content: {
@@ -50,6 +50,18 @@ export class Db {
             },
         ],
     };
+
+    /*
+     * Graph
+     */
+
+    public static getAsGraphData(): { nodes: GraphNode[], combos: GraphCombo[], edges: GraphEdge[] } {
+        return {
+            nodes: this.content.organizations.map(node => GraphNode.fromOrgNode(node)),
+            combos: this.content.groups.map(group => GraphCombo.fromOrgGroup(group)),
+            edges: this.content.edges.map(edge => GraphEdge.fromOrgEdge(edge)),
+        };
+    }
 
     /*
      * Organizations

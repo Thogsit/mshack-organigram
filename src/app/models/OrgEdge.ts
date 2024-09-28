@@ -14,7 +14,7 @@ export class OrgEdgeDto {
             id: id,
             sourceId: this.sourceId,
             targetId: this.targetId,
-            label: this.label
+            label: this.label,
         };
     }
 }
@@ -24,4 +24,20 @@ export interface OrgEdge {
     sourceId: string;
     targetId: string;
     label: string;
+}
+
+export class GraphEdge {
+    source: string;
+    target: string;
+    label: string;
+
+    constructor(source: string, target: string, label: string) {
+        this.source = source;
+        this.target = target;
+        this.label = label;
+    }
+
+    public static fromOrgEdge(edge: OrgEdge): GraphEdge {
+        return new GraphEdge(edge.sourceId, edge.targetId, edge.label);
+    }
 }

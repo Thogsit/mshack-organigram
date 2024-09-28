@@ -21,6 +21,10 @@ export const getApiDocs = async () => createSwaggerSpec({
                 name: "edges",
                 description: "Edges API",
             },
+            {
+                name: "graph",
+                description: "Graph API",
+            },
         ],
         components: {
             schemas: {
@@ -105,6 +109,30 @@ export const getApiDocs = async () => createSwaggerSpec({
                         },
                     },
                 },
+                GraphData: {
+                    type: "object",
+                    required: ["nodes", "edges", "combos"],
+                    properties: {
+                        nodes: {
+                            type: "array",
+                            items: {
+                                $ref: "#/components/schemas/GraphNode",
+                            },
+                        },
+                        edges: {
+                            type: "array",
+                            items: {
+                                $ref: "#/components/schemas/GraphEdge",
+                            },
+                        },
+                        combos: {
+                            type: "array",
+                            items: {
+                                $ref: "#/components/schemas/GraphCombo",
+                            },
+                        },
+                    },
+                }
             }
         },
     },
