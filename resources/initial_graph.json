@@ -1,7 +1,11 @@
 {
   "combos": [
     { "id": "bezreg_leitung", "label": "Leitung", "combo": "bezRegMünster" },
-    { "id": "bezreg_abteilungen", "label": "Abteilungen", "combo": "bezRegMünster" },
+    {
+      "id": "bezreg_abteilungen",
+      "label": "Abteilungen",
+      "combo": "bezRegMünster"
+    },
     {
       "id": "bezreg_regionale_angelegenheiten",
       "label": "Regionale Angelegenheiten",
@@ -13,7 +17,11 @@
       "combo": "bezRegMünster"
     },
     { "id": "bezreg_umwelt", "label": "Umwelt", "combo": "bezRegMünster" },
-    { "id": "bezreg_notfall", "label": "Gefahrenabwehr", "combo": "bezRegMünster" },
+    {
+      "id": "bezreg_notfall",
+      "label": "Gefahrenabwehr",
+      "combo": "bezRegMünster"
+    },
     {
       "id": "bezreg_bildung",
       "label": "Bildung und Schulen",
@@ -24,7 +32,12 @@
       "label": "Rechtsangelegenheiten und Governance",
       "combo": "bezRegMünster"
     },
-    { "id": "bezreg_personal", "label": "Personalwesen", "combo": "bezRegMünster" }
+    {
+      "id": "bezreg_personal",
+      "label": "Personalwesen",
+      "combo": "bezRegMünster"
+    },
+    { "id": "bezRegMünster", "label": "Bezrksregierung Münster" }
   ],
   "nodes": [
     {

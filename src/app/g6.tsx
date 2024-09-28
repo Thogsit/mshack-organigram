@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 import { data } from "./data";
 
@@ -211,21 +211,27 @@ class LevelOfDetail extends BaseBehavior {
 register(ExtensionCategory.NODE, "chart-node", ChartNode);
 register(ExtensionCategory.BEHAVIOR, "level-of-detail", LevelOfDetail);
 
+function getGraphData(): Promise<any> {
+  return fetch("/api/graph").then((r) => r.json());
+}
+
 export default function () {
   const ref = React.useRef(null);
   let graph: Graph | null = null;
+  let [graphData, setGraphData] = useState({
+    edges: [],
+    combos: [],
+    nodes: [],
+  });
 
+  useEffect(() => {
+    getGraphData().then((data) => {
+      setGraphData(data);
+    });
+  }, []);
   useEffect(() => {
     if (graph == null) {
       const dataSourcses = [data, dataBezreg];
-      const dataset = dataSourcses.reduce(
-        (prev, curr) => ({
-          combos: [...prev.combos, ...curr.combos],
-          nodes: [...prev.nodes, ...curr.nodes],
-          edges: [...prev.edges, ...curr.edges],
-        }),
-        { combos: [], nodes: [], edges: [] },
-      );
 
       graph = new Graph({
         node: {
@@ -264,7 +270,7 @@ export default function () {
         },
 
         container: ReactDOM.findDOMNode(ref.current) as any,
-        data: dataset,
+        data: graphData,
         width: 1500,
         height: 1500,
         layout: {
@@ -298,7 +304,8 @@ export default function () {
     });
 
     graph!.render();
-  }, []);
+    console.log("Render");
+  }, [graphData]);
 
   return <div ref={ref}></div>;
 }
