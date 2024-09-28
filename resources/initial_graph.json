@@ -1,43 +1,43 @@
 {
   "combos": [
-    { "id": "bezreg_leitung", "label": "Leitung", "combo": "bezRegMünster" },
+    { "id": "bezreg_leitung", "label": "Leitung", "combo": "bezreg_ms" },
     {
       "id": "bezreg_abteilungen",
       "label": "Abteilungen",
-      "combo": "bezRegMünster"
+      "combo": "bezreg_ms"
     },
     {
       "id": "bezreg_regionale_angelegenheiten",
       "label": "Regionale Angelegenheiten",
-      "combo": "bezRegMünster"
+      "combo": "bezreg_ms"
     },
     {
       "id": "bezreg_gesundheitswesen",
       "label": "Öffentliche Gesundheit und Soziales",
-      "combo": "bezRegMünster"
+      "combo": "bezreg_ms"
     },
-    { "id": "bezreg_umwelt", "label": "Umwelt", "combo": "bezRegMünster" },
+    { "id": "bezreg_umwelt", "label": "Umwelt", "combo": "bezreg_ms" },
     {
       "id": "bezreg_notfall",
       "label": "Gefahrenabwehr",
-      "combo": "bezRegMünster"
+      "combo": "bezreg_ms"
     },
     {
       "id": "bezreg_bildung",
       "label": "Bildung und Schulen",
-      "combo": "bezRegMünster"
+      "combo": "bezreg_ms"
     },
     {
       "id": "bezreg_rechtsangelegenheiten",
       "label": "Rechtsangelegenheiten und Governance",
-      "combo": "bezRegMünster"
+      "combo": "bezreg_ms"
     },
     {
       "id": "bezreg_personal",
       "label": "Personalwesen",
-      "combo": "bezRegMünster"
+      "combo": "bezreg_ms"
     },
-    { "id": "bezRegMünster", "label": "Bezrksregierung Münster" }
+    { "id": "bezreg_ms", "label": "Bezirksregierung Münster" }
   ],
   "nodes": [
     {
@@ -177,6 +177,11 @@
     }
   ],
   "edges": [
+    {
+      "source": "bezreg_ms",
+      "target": "bezreg_abteilungen",
+      "label": "Enthält"
+    },
     {
       "target": "bezreg_leitung",
       "source": "bezreg_abteilungen",

@@ -17,10 +17,10 @@ export const data = {
     {
       id: "stadt",
       label: "Stadt Münster",
-      combo: "bezRegMünster",
+      combo: "bezreg_ms",
     },
     {
-      id: "bezRegMünster",
+      id: "bezreg_ms",
       label: "Bezierksregierung Münster",
       combo: "landNrw",
     },
