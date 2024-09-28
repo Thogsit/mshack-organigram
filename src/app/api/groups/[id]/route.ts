@@ -22,7 +22,7 @@ import {Db} from "@/app/db/db";
  *             schema:
  *               type: string
  */
-export async function GET({params}: { params: { id: string } }) {
+export async function GET(_: Request, {params}: { params: { id: string } }) {
     const group: OrgGroup | undefined = Db.getGroupById(params.id);
 
     return group ? Response.json(group) : new Response('Group not found', {status: 404});
@@ -113,7 +113,7 @@ export async function POST(req: Request, {params}: { params: { id: string } }) {
  *             schema:
  *               type: string
  */
-export async function DELETE({params}: { params: { id: string } }) {
+export async function DELETE(_: Request, {params}: { params: { id: string } }) {
     const group = Db.deleteGroup(params.id);
 
     return Response.json(group);

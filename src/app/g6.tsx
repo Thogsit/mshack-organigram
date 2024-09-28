@@ -136,7 +136,7 @@ class ChartNode extends Rect {
 
   drawPhoneShape(_: RectStyleProps, container: DisplayObject) {
     const style = this.getPhoneStyle();
-    this.upsert("contact", Label, style, container);
+    this.upsert("contact", Label, style as any, container);
   }
 
   render(attributes = this.parsedAttributes, container = this) {
